@@ -26,7 +26,6 @@ class TrumbowygWidget(Textarea):
             )
         }
         js = [
-            "//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js",
             "trumbowyg/trumbowyg.min.js",
             "trumbowyg/plugins/upload/trumbowyg.upload.js",
             "trumbowyg/langs/{0}.min.js".format(get_trumbowyg_language()),
@@ -36,7 +35,7 @@ class TrumbowygWidget(Textarea):
         output = super(TrumbowygWidget, self).render(name, value, attrs)
         script = """
             <script>
-                $("#id_{name}").trumbowyg({{
+                (window.$ || window.django.jQuery)("#id_{name}").trumbowyg({{
                     lang: "{lang}",
                     semantic: {semantic},
                     resetCss: true,

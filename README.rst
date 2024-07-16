@@ -37,7 +37,7 @@ Installation
 
     TRUMBOWYG_SEMANTIC = 'true'
 
-8. Don't forget to add ``{{ form.media }}`` to form template.
+8. When using ``django-trumbowyg`` outside of the admin, don't forget to include jQuery and also add ``{{ form.media }}`` to form template.
 
 Usage
 =====
