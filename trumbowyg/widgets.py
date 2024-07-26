@@ -28,6 +28,7 @@ class TrumbowygWidget(Textarea):
             "//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js",
             "trumbowyg/trumbowyg.min.js",
             "trumbowyg/plugins/upload/trumbowyg.upload.min.js",
+            "trumbowyg/admin.js",
         ] + (
             []
             if get_trumbowyg_language().startswith("en")
