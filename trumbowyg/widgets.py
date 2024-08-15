@@ -1,5 +1,6 @@
 from django.conf import settings as django_settings
 from django.forms.widgets import Textarea
+from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -71,7 +72,8 @@ class TrumbowygWidget(Textarea):
                             statusPropertyName: "success",
                             urlPropertyName: "file"
                         }}
-                    }}
+                    }},
+                    svgPath: "{svg_path}",
                 }});
             </script>
         """.format(
@@ -79,6 +81,7 @@ class TrumbowygWidget(Textarea):
             lang=get_trumbowyg_language(),
             semantic=settings.SEMANTIC,
             path=reverse("trumbowyg_upload_image"),
+            svg_path=static("trumbowyg/ui/icons.svg"),
         )
         output += mark_safe(script)
         return output
