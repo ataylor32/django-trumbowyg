@@ -53,11 +53,9 @@ class TrumbowygWidget(Textarea):
                     }},
                     btns: [
                         ["formatting", "strong", "em"],
-                        "btnGrp-semantic",
                         ["link"],
                         ["image"],
-                        "btnGrp-justify",
-                        "btnGrp-lists",
+                        ["justifyLeft", "justifyCenter", "justifyRight", "justifyFull"],
                         ["unorderedList", "orderedList"],
                         ["horizontalRule"],
                         ["blockquote"],
