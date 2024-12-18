@@ -23,10 +23,12 @@ class TrumbowygWidget(Textarea):
         css = {
             "all": (
                 "trumbowyg/ui/trumbowyg.min.css",
+                "trumbowyg/plugins/colors/ui/trumbowyg.colors.min.css",
             )
         }
         js = [
             "trumbowyg/trumbowyg.min.js",
+            "trumbowyg/plugins/colors/trumbowyg.colors.min.js",
             "trumbowyg/plugins/upload/trumbowyg.upload.min.js",
             "trumbowyg/admin.js",
         ] + (
@@ -53,6 +55,7 @@ class TrumbowygWidget(Textarea):
                     }},
                     btns: [
                         ["formatting", "strong", "em"],
+                        ["foreColor", "backColor"],
                         ["link"],
                         ["image"],
                         ["justifyLeft", "justifyCenter", "justifyRight", "justifyFull"],
