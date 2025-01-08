@@ -1,5 +1,7 @@
+import copy
+
 from django.conf import settings as django_settings
-from django.forms.widgets import Textarea
+from django.forms.widgets import Media, Textarea
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -19,24 +21,36 @@ def get_trumbowyg_language():
 
 
 class TrumbowygWidget(Textarea):
-    class Media:
-        css = {
-            "all": (
-                "trumbowyg/ui/trumbowyg.min.css",
-                "trumbowyg/plugins/colors/ui/trumbowyg.colors.min.css",
-            )
-        }
-        js = [
-            "trumbowyg/trumbowyg.min.js",
-            "trumbowyg/plugins/colors/trumbowyg.colors.min.js",
-            "trumbowyg/plugins/fontsize/trumbowyg.fontsize.min.js",
-            "trumbowyg/plugins/upload/trumbowyg.upload.min.js",
-            "trumbowyg/admin.js",
-        ] + (
-            []
-            if get_trumbowyg_language().startswith("en")
-            else ["trumbowyg/langs/{0}.min.js".format(get_trumbowyg_language())]
-        )
+    @property
+    def media(self):
+        extra_media = copy.deepcopy(settings.EXTRA_MEDIA)
+
+        if "css" in extra_media:
+            css = extra_media["css"]
+
+            if "all" not in css:
+                css["all"] = []
+        else:
+            css = {"all": []}
+
+        if "js" in extra_media:
+            js = extra_media["js"]
+        else:
+            js = []
+
+        css["all"].insert(0, "trumbowyg/ui/trumbowyg.min.css")
+        css["all"].insert(1, "trumbowyg/plugins/colors/ui/trumbowyg.colors.min.css")
+
+        js.insert(0, "trumbowyg/trumbowyg.min.js")
+        js.insert(1, "trumbowyg/plugins/colors/trumbowyg.colors.min.js")
+        js.insert(2, "trumbowyg/plugins/fontsize/trumbowyg.fontsize.min.js")
+        js.insert(3, "trumbowyg/plugins/upload/trumbowyg.upload.min.js")
+        js.insert(4, "trumbowyg/admin.js")
+
+        if get_trumbowyg_language().startswith("en") is False:
+            js.insert(5, "trumbowyg/langs/{0}.min.js".format(get_trumbowyg_language()))
+
+        return Media(css=css, js=js)
 
     def render(self, name, value, attrs=None, renderer=None):
         output = super(TrumbowygWidget, self).render(name, value, attrs)
