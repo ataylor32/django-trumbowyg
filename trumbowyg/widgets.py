@@ -4,6 +4,7 @@ from django.conf import settings as django_settings
 from django.forms.widgets import Media, Textarea
 from django.templatetags.static import static
 from django.urls import reverse
+from django.urls.exceptions import NoReverseMatch
 from django.utils.safestring import mark_safe
 
 from . import settings
@@ -44,16 +45,29 @@ class TrumbowygWidget(Textarea):
         js.insert(0, "trumbowyg/trumbowyg.min.js")
         js.insert(1, "trumbowyg/plugins/colors/trumbowyg.colors.min.js")
         js.insert(2, "trumbowyg/plugins/fontsize/trumbowyg.fontsize.min.js")
-        js.insert(3, "trumbowyg/plugins/upload/trumbowyg.upload.min.js")
-        js.insert(4, "trumbowyg/admin.js")
+
+        try:
+            reverse("trumbowyg_upload_image")
+        except NoReverseMatch:
+            pass
+        else:
+            js.insert(3, "trumbowyg/plugins/upload/trumbowyg.upload.min.js")
+
+        js.insert(3, "trumbowyg/admin.js")
 
         if get_trumbowyg_language().startswith("en") is False:
-            js.insert(5, "trumbowyg/langs/{0}.min.js".format(get_trumbowyg_language()))
+            js.insert(4, "trumbowyg/langs/{0}.min.js".format(get_trumbowyg_language()))
 
         return Media(css=css, js=js)
 
     def render(self, name, value, attrs=None, renderer=None):
         output = super(TrumbowygWidget, self).render(name, value, attrs)
+
+        try:
+            trumbowyg_upload_image_url = reverse("trumbowyg_upload_image")
+        except NoReverseMatch:
+            trumbowyg_upload_image_url = ""
+
         script = """
             <script>
                 $("#id_{name}").trumbowyg({{
@@ -96,7 +110,7 @@ class TrumbowygWidget(Textarea):
             name=name,
             lang=get_trumbowyg_language(),
             semantic=settings.SEMANTIC,
-            path=reverse("trumbowyg_upload_image"),
+            path=trumbowyg_upload_image_url,
             svg_path=static("trumbowyg/ui/icons.svg"),
         )
         output += mark_safe(script)
