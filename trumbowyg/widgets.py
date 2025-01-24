@@ -41,6 +41,7 @@ class TrumbowygWidget(Textarea):
 
         css["all"].insert(0, "trumbowyg/ui/trumbowyg.min.css")
         css["all"].insert(1, "trumbowyg/plugins/colors/ui/trumbowyg.colors.min.css")
+        css["all"].insert(2, "trumbowyg/admin.css")
 
         js.insert(0, "trumbowyg/trumbowyg.min.js")
         js.insert(1, "trumbowyg/plugins/colors/trumbowyg.colors.min.js")

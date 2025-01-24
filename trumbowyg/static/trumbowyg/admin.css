@@ -1,0 +1,9 @@
+@media (max-width: 767px) {
+  .trumbowyg-box.trumbowyg-editor-visible:not(.trumbowyg-fullscreen) .trumbowyg-editor {
+    min-height: 230px;
+  }
+
+  .trumbowyg-box.trumbowyg-editor-visible .trumbowyg-textarea {
+    flex-grow: 0;
+  }
+}
